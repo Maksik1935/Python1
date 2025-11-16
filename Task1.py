@@ -1,18 +1,17 @@
 
-# Входное слово
-word = input("Введите слово: ")
+import requests
+import json
 
-length = len(word)
+url = "https://jsonplaceholder.typicode.com/posts"
 
-# Проверяем чётность длины
-if length % 2 == 0:
-    # Чётное — выводим две средние буквы
-    middle_left = length // 2 - 1
-    middle_right = length // 2 + 1
-    result = word[middle_left:middle_right]
-else:
-    # Нечётное — выводим одну среднюю букву
-    middle = length // 2
-    result = word[middle]
+response = requests.get(url)
 
-print("Результат:", result)
+# Заголовки ответа
+print("=== HEADERS ===")
+for key, value in response.headers.items():
+    print(f"{key}: {value}")
+
+# Тело ответа (как текст)
+data = response.json()
+first_five = data[:5]
+print(json.dumps(first_five, indent=2, ensure_ascii=False))
